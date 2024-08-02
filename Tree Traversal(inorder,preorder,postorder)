@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+#define MAX 100
+
+// Function to perform Inorder traversal
+void inorder(int tree[], int index, int size) {
+    if (index >= size) return;
+    inorder(tree, 2 * index + 1, size); // Left child
+    printf("%d ", tree[index]);         // Root
+    inorder(tree, 2 * index + 2, size); // Right child
+}
+
+// Function to perform Preorder traversal
+void preorder(int tree[], int index, int size) {
+    if (index >= size) return;
+    printf("%d ", tree[index]);         // Root
+    preorder(tree, 2 * index + 1, size); // Left child
+    preorder(tree, 2 * index + 2, size); // Right child
+}
+
+// Function to perform Postorder traversal
+void postorder(int tree[], int index, int size) {
+    if (index >= size) return;
+    postorder(tree, 2 * index + 1, size); // Left child
+    postorder(tree, 2 * index + 2, size); // Right child
+    printf("%d ", tree[index]);         // Root
+}
+
+int main() {
+    int tree[MAX] = {1, 2, 3, 4, 5}; // Array representation of a binary tree
+    int size = 5; // Number of elements in the tree
+
+    printf("Inorder Traversal: ");
+    inorder(tree, 0, size);
+    printf("\n");
+
+    printf("Preorder Traversal: ");
+    preorder(tree, 0, size);
+    printf("\n");
+
+    printf("Postorder Traversal: ");
+    postorder(tree, 0, size);
+    printf("\n");
+
+    return 0;
+}
