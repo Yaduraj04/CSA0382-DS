@@ -1,0 +1,79 @@
+#include <stdio.h>
+
+#define TABLE_SIZE 10
+
+int keys[TABLE_SIZE];
+int values[TABLE_SIZE];
+int isOccupied[TABLE_SIZE];
+
+// Hash function
+int hash(int key) {
+    return key % TABLE_SIZE;
+}
+
+// Insert key-value pair
+void insert(int key, int value) {
+    int index = hash(key);
+    while (isOccupied[index] && keys[index] != key) {
+        index = (index + 1) % TABLE_SIZE;
+    }
+    keys[index] = key;
+    values[index] = value;
+    isOccupied[index] = 1;
+}
+
+// Search for a value by key
+int search(int key) {
+    int index = hash(key);
+    while (isOccupied[index]) {
+        if (keys[index] == key) return values[index];
+        index = (index + 1) % TABLE_SIZE;
+    }
+    return -1; // Not found
+}
+
+// Delete a key-value pair
+void delete(int key) {
+    int index = hash(key);
+    while (isOccupied[index]) {
+        if (keys[index] == key) {
+            isOccupied[index] = 0;
+            return;
+        }
+        index = (index + 1) % TABLE_SIZE;
+    }
+    printf("Key not found\n");
+}
+
+// Display the hash table
+void display() {
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        if (isOccupied[i]) {
+            printf("Index %d: Key %d, Value %d\n", i, keys[i], values[i]);
+        } else {
+            printf("Index %d: Empty\n", i);
+        }
+    }
+}
+
+int main() {
+    // Initialize arrays
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        isOccupied[i] = 0;
+    }
+
+    insert(1, 100);
+    insert(11, 200);
+    insert(21, 300);
+
+    printf("Hash Table:\n");
+    display();
+
+    printf("Search key 11: %d\n", search(11));
+
+    delete(11);
+    printf("Hash Table after deleting key 11:\n");
+    display();
+
+    return 0;
+}
