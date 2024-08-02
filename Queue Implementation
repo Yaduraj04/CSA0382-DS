@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+#define MAX 100
+
+typedef struct {
+    int data[MAX];
+    int front, rear;
+} Queue;
+
+void initQueue(Queue* q) {
+    q->front = 0;
+    q->rear = -1;
+}
+
+int isFull(Queue* q) {
+    return q->rear == MAX - 1;
+}
+
+int isEmpty(Queue* q) {
+    return q->front > q->rear;
+}
+
+void enqueue(Queue* q, int value) {
+    if (isFull(q)) {
+        printf("Queue is full\n");
+        return;
+    }
+    q->data[++q->rear] = value;
+}
+
+int dequeue(Queue* q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+    return q->data[q->front++];
+}
+
+void display(Queue* q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty\n");
+        return;
+    }
+    for (int i = q->front; i <= q->rear; i++) {
+        printf("%d <- ", q->data[i]);
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Queue q;
+    initQueue(&q);
+
+    enqueue(&q, 10);
+    enqueue(&q, 20);
+    enqueue(&q, 30);
+
+    printf("Queue after enqueue: ");
+    display(&q);
+
+    printf("Dequeued element: %d\n", dequeue(&q));
+    printf("Queue after dequeue: ");
+    display(&q);
+
+    return 0;
+}
